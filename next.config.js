@@ -17,8 +17,6 @@ const nextConfig = {
     domains: ['localhost', 'vercel.app'],
     unoptimized: false,
   },
-  // Output file tracing root to fix the lockfile warning
-  outputFileTracingRoot: '/Users/pritam/Desktop/Dapps/clorion',
   // Webpack configuration
   webpack: (config, { isServer }) => {
     // Optimize bundle splitting

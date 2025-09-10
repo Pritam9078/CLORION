@@ -68,6 +68,10 @@
     "react-three-fiber": "^6.0.13",
     "recharts": "^3.1.2",
     "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^3.4.17",
+    "tailwindcss-animate": "^1.0.7",
+    "postcss": "^8.4.49",
+    "autoprefixer": "^10.4.20",
     "three": "^0.180.0",
     "uuid": "^11.1.0",
     "viem": "^2.37.3",
@@ -82,17 +86,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "autoprefixer": "^10.4.20",
     "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
     "hardhat": "^3.0.4",
     "hardhat-deploy": "^1.0.4",
     "nodemon": "^3.1.10",
-    "postcss": "^8.4.49",
     "prisma": "^6.15.0",
-    "tailwindcss": "^3.4.17",
-    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5"
   }
 }
