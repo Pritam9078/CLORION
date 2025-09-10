@@ -1,0 +1,219 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  PROJECT_OWNER
+  TRADER
+  VERIFIER
+  ADMIN
+}
+
+enum ProjectStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  VERIFIED
+  REJECTED
+  ACTIVE
+  COMPLETED
+}
+
+enum EcosystemType {
+  MANGROVE
+  SEAGRASS
+  WETLAND
+  SALT_MARSH
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REQUIRES_REVISION
+}
+
+enum TransactionType {
+  ISSUANCE
+  TRANSFER
+  RETIREMENT
+  PURCHASE
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String
+  phone         String?
+  organization  String?
+  role          UserRole
+  walletAddress String?
+  verified      Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+
+  // Relations
+  projects            Project[]
+  verifications       Verification[]
+  creditTransactions  CreditTransaction[]
+  auditReports        AuditReport[]
+
+  @@map("users")
+}
+
+model Project {
+  id              String        @id @default(cuid())
+  name            String
+  description     String?
+  location        String
+  area            Float         // in hectares
+  ecosystemType   EcosystemType
+  status          ProjectStatus @default(DRAFT)
+  gisData         Json?         // GeoJSON boundary data
+  baselineCO2     Float?        // baseline CO2 measurement
+  estimatedCO2    Float?        // estimated CO2 capture potential
+  actualCO2       Float?        // actual CO2 captured
+  startDate       DateTime
+  endDate         DateTime?
+  registrationFee Float?
+  blockchainTxHash String?      // Transaction hash for blockchain registration
+  contractProjectId Int?        // ID in the smart contract
+  
+  // Owner information
+  ownerId         String
+  owner           User          @relation(fields: [ownerId], references: [id])
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  verifications   Verification[]
+  creditBatches   CreditBatch[]
+  auditReports    AuditReport[]
+  satelliteData   SatelliteData[]
+
+  @@map("projects")
+}
+
+model Verification {
+  id              String             @id @default(cuid())
+  projectId       String
+  verifierId      String
+  status          VerificationStatus @default(PENDING)
+  notes           String?
+  verificationData Json?             // Additional verification documents/data
+  co2Assessment   Float?            // Verifier's CO2 assessment
+  reviewDate      DateTime?
+  
+  project         Project           @relation(fields: [projectId], references: [id])
+  verifier        User              @relation(fields: [verifierId], references: [id])
+  
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@map("verifications")
+}
+
+model CreditBatch {
+  id                String    @id @default(cuid())
+  projectId         String
+  batchNumber       String    @unique
+  amount            Float     // tonnes of CO2
+  vintage           Int       // year of CO2 capture
+  issuanceDate      DateTime
+  expiryDate        DateTime?
+  pricePerCredit    Float?
+  contractCreditId  Int?      // ID in the smart contract
+  blockchainTxHash  String?   // Issuance transaction hash
+  retired           Boolean   @default(false)
+  retirementDate    DateTime?
+  retirementReason  String?
+  
+  project           Project   @relation(fields: [projectId], references: [id])
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  transactions      CreditTransaction[]
+
+  @@map("credit_batches")
+}
+
+model CreditTransaction {
+  id              String          @id @default(cuid())
+  creditBatchId   String
+  fromUserId      String?         // null for issuance
+  toUserId        String?         // null for retirement
+  type            TransactionType
+  amount          Float
+  pricePerCredit  Float?
+  totalValue      Float?
+  blockchainTxHash String?
+  status          String          @default("pending") // pending, confirmed, failed
+  
+  creditBatch     CreditBatch     @relation(fields: [creditBatchId], references: [id])
+  fromUser        User?           @relation(fields: [fromUserId], references: [id])
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@map("credit_transactions")
+}
+
+model AuditReport {
+  id              String    @id @default(cuid())
+  projectId       String
+  auditorId       String
+  reportType      String    // site_visit, remote_monitoring, etc.
+  findings        String
+  recommendations String?
+  attachments     Json?     // File paths/URLs
+  auditDate       DateTime
+  
+  project         Project   @relation(fields: [projectId], references: [id])
+  auditor         User      @relation(fields: [auditorId], references: [id])
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("audit_reports")
+}
+
+model SatelliteData {
+  id              String    @id @default(cuid())
+  projectId       String
+  dataSource      String    // NASA, Sentinel, etc.
+  dataType        String    // NDVI, EVI, biomass, etc.
+  value           Float
+  acquisitionDate DateTime
+  cloudCover      Float?
+  quality         String?   // good, fair, poor
+  rawData         Json?     // Additional satellite data
+  
+  project         Project   @relation(fields: [projectId], references: [id])
+  
+  createdAt       DateTime  @default(now())
+
+  @@map("satellite_data")
+}
+
+model SystemConfig {
+  id          String    @id @default(cuid())
+  key         String    @unique
+  value       String
+  description String?
+  updatedAt   DateTime  @updatedAt
+
+  @@map("system_config")
+}

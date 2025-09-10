@@ -1,26 +1,330 @@
 @import "tailwindcss";
 
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Typography Scale - Base 16px */
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 1.875rem;   /* 30px */
+  --font-size-4xl: 2.25rem;    /* 36px */
+  --font-size-5xl: 3rem;       /* 48px */
+  --font-size-6xl: 3.75rem;    /* 60px */
+  --font-size-7xl: 4.5rem;     /* 72px */
+  
+  /* Line Heights */
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+  
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  
+  /* Letter Spacing */
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+/* Responsive Typography Scaling */
+@media (max-width: 640px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --font-size-base: 0.875rem;  /* 14px on mobile */
+    --font-size-lg: 1rem;        /* 16px on mobile */
+    --font-size-xl: 1.125rem;    /* 18px on mobile */
+    --font-size-2xl: 1.25rem;    /* 20px on mobile */
+    --font-size-3xl: 1.5rem;     /* 24px on mobile */
+    --font-size-4xl: 1.875rem;   /* 30px on mobile */
+    --font-size-5xl: 2.25rem;    /* 36px on mobile */
+    --font-size-6xl: 2.75rem;    /* 44px on mobile */
+    --font-size-7xl: 3.25rem;    /* 52px on mobile */
   }
 }
 
+@media (min-width: 1024px) {
+  :root {
+    --font-size-5xl: 3.5rem;     /* 56px on desktop */
+    --font-size-6xl: 4.25rem;    /* 68px on desktop */
+    --font-size-7xl: 5rem;       /* 80px on desktop */
+  }
+}
+
+/* Base Typography Classes */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background) !important;
+  color: var(--foreground) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-normal);
+}
+
+/* Heading Hierarchy */
+h1, .text-h1 {
+  font-size: var(--font-size-5xl) !important;
+  line-height: var(--line-height-tight) !important;
+  font-weight: var(--font-weight-bold) !important;
+  letter-spacing: var(--letter-spacing-tight) !important;
+  color: #111827 !important;
+}
+
+h2, .text-h2 {
+  font-size: var(--font-size-4xl) !important;
+  line-height: var(--line-height-tight) !important;
+  font-weight: var(--font-weight-bold) !important;
+  letter-spacing: var(--letter-spacing-tight) !important;
+  color: #111827 !important;
+}
+
+h3, .text-h3 {
+  font-size: var(--font-size-3xl) !important;
+  line-height: var(--line-height-snug) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  letter-spacing: var(--letter-spacing-normal) !important;
+  color: #111827 !important;
+}
+
+h4, .text-h4 {
+  font-size: var(--font-size-2xl) !important;
+  line-height: var(--line-height-snug) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  color: #111827 !important;
+}
+
+h5, .text-h5 {
+  font-size: var(--font-size-xl) !important;
+  line-height: var(--line-height-snug) !important;
+  font-weight: var(--font-weight-medium) !important;
+  color: #111827 !important;
+}
+
+h6, .text-h6 {
+  font-size: var(--font-size-lg) !important;
+  line-height: var(--line-height-snug) !important;
+  font-weight: var(--font-weight-medium) !important;
+  color: #111827 !important;
+}
+
+/* Body Text Styles */
+p, .text-body {
+  font-size: var(--font-size-base) !important;
+  line-height: var(--line-height-relaxed) !important;
+  color: #374151 !important;
+}
+
+.text-body-large, .text-lg {
+  font-size: var(--font-size-lg) !important;
+  line-height: var(--line-height-relaxed) !important;
+  color: #374151 !important;
+}
+
+.text-body-small, .text-sm {
+  font-size: var(--font-size-sm) !important;
+  line-height: var(--line-height-normal) !important;
+  color: #4b5563 !important;
+}
+
+.text-caption, .text-xs {
+  font-size: var(--font-size-xs) !important;
+  line-height: var(--line-height-normal) !important;
+  color: #6b7280 !important;
+}
+
+/* Button Typography */
+.btn-text-large {
+  font-size: var(--font-size-lg) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  letter-spacing: var(--letter-spacing-wide) !important;
+}
+
+.btn-text-base {
+  font-size: var(--font-size-base) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  letter-spacing: var(--letter-spacing-normal) !important;
+}
+
+.btn-text-small {
+  font-size: var(--font-size-sm) !important;
+  font-weight: var(--font-weight-medium) !important;
+  letter-spacing: var(--letter-spacing-normal) !important;
+}
+
+/* Label and Form Typography */
+label, .form-label {
+  font-size: var(--font-size-sm) !important;
+  font-weight: var(--font-weight-medium) !important;
+  color: #374151 !important;
+}
+
+input, textarea, select, .form-input {
+  font-size: var(--font-size-base) !important;
+  line-height: var(--line-height-normal) !important;
+  color: #111827 !important;
+}
+
+.form-helper {
+  font-size: var(--font-size-xs) !important;
+  line-height: var(--line-height-normal) !important;
+  color: #6b7280 !important;
+}
+
+/* Navigation Typography */
+.nav-link {
+  font-size: var(--font-size-base) !important;
+  font-weight: var(--font-weight-medium) !important;
+  letter-spacing: var(--letter-spacing-normal) !important;
+}
+
+.nav-brand {
+  font-size: var(--font-size-2xl) !important;
+  font-weight: var(--font-weight-bold) !important;
+  letter-spacing: var(--letter-spacing-tight) !important;
+}
+
+/* Card and Component Typography */
+.card-title {
+  font-size: var(--font-size-xl) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  line-height: var(--line-height-snug) !important;
+  color: #111827 !important;
+}
+
+.card-description {
+  font-size: var(--font-size-sm) !important;
+  line-height: var(--line-height-normal) !important;
+  color: #6b7280 !important;
+}
+
+/* Stats and Number Typography */
+.stat-number {
+  font-size: var(--font-size-3xl) !important;
+  font-weight: var(--font-weight-bold) !important;
+  line-height: var(--line-height-none) !important;
+  color: #111827 !important;
+}
+
+.stat-label {
+  font-size: var(--font-size-sm) !important;
+  font-weight: var(--font-weight-medium) !important;
+  color: #6b7280 !important;
+}
+
+/* Badge and Pill Typography */
+.badge-text {
+  font-size: var(--font-size-xs) !important;
+  font-weight: var(--font-weight-medium) !important;
+  letter-spacing: var(--letter-spacing-wide) !important;
+}
+
+/* Utility Classes */
+.text-display {
+  font-size: var(--font-size-7xl) !important;
+  line-height: var(--line-height-none) !important;
+  font-weight: var(--font-weight-extrabold) !important;
+  letter-spacing: var(--letter-spacing-tighter) !important;
+}
+
+/* Ensure good contrast and readability */
+.text-gray-900 {
+  color: #111827 !important;
+}
+
+.text-gray-700 {
+  color: #374151 !important;
+}
+
+.text-gray-600 {
+  color: #4b5563 !important;
+}
+
+.text-gray-500 {
+  color: #6b7280 !important;
+}
+
+.text-gray-400 {
+  color: #9ca3af !important;
+}
+
+/* Web3 Modal Optimizations */
+w3m-modal, w3m-modal * {
+  font-family: inherit !important;
+  font-size: var(--font-size-sm) !important;
+}
+
+/* Completely block Reown font loading */
+@font-face {
+  font-family: 'KHTeka';
+  src: none !important;
+}
+
+/* Hide and block all external font preloads */
+link[rel="preload"][href*="reown.com"],
+link[rel="preload"][href*="web3modal.com"],
+link[rel="preload"][href*="walletconnect.com"],
+link[rel="preload"][as="font"][href*="reown"],
+link[rel="preload"][as="font"][href*="web3modal"] {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* Block font loading at CSS level */
+@media (max-width: 0px) {
+  @import url('https://fonts.reown.com/KHTeka-Medium.woff2');
+}
+
+/* Performance optimization for Web3 modals */
+w3m-modal {
+  --w3m-font-family: inherit !important;
+  --w3m-font-size-master: var(--font-size-sm);
+}
+
+/* Reduce resource loading */
+w3m-connector-list {
+  --w3m-border-radius-master: 8px;
+}
+
+/* Prevent Coinbase widget loading */
+[data-testid="wallet-selector-coinbase"],
+[data-testid*="coinbase"] {
+  display: none !important;
+}
+
+/* Block any iframe or script loading from problematic domains */
+iframe[src*="coinbase.com"],
+iframe[src*="cca-lite.coinbase.com"],
+script[src*="coinbase.com"],
+script[src*="cca-lite.coinbase.com"] {
+  display: none !important;
+}
+
+/* Prevent hydration mismatches by ensuring consistent styling */
+* {
+  box-sizing: border-box;
+}
+
+/* Ensure consistent font loading to prevent hydration issues */
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif !important;
 }

@@ -1,0 +1,21 @@
+{
+  "name": "CLORION - Blue Carbon Registry",
+  "short_name": "CLORION",
+  "description": "Blockchain-based Blue Carbon Registry and MRV System for sustainable carbon credit management",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0ea5e9",
+  "icons": [
+    {
+      "src": "/clorion-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/clorion-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
