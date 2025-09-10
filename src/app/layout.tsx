@@ -28,12 +28,12 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: '/clorion-logo.png', sizes: 'any', type: 'image/png' },
-      { url: '/clorion-logo.png', sizes: '32x32', type: 'image/png' },
-      { url: '/clorion-logo.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
     ],
     apple: '/clorion-logo.png',
-    shortcut: '/clorion-logo.png',
+    shortcut: '/favicon.ico',
   },
 };
 
@@ -49,9 +49,9 @@ export default function RootLayout({
         <script src="/phantom-error-suppression.js" />
         
         {/* Additional favicon links for better browser compatibility */}
-        <link rel="icon" type="image/png" href="/clorion-logo.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/clorion-logo.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/clorion-logo.png" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="apple-touch-icon" href="/clorion-logo.png" />
         <link rel="manifest" href="/manifest.json" />
       </head>
